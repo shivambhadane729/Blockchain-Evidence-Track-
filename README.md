@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # National Digital Evidence Portal (NDEP) - JusticeLedger AI
 
 A comprehensive digital evidence management system with blockchain-backed custody tracking and AI-powered anomaly detection for law enforcement and judicial processes.
@@ -302,3 +303,7 @@ For technical support or questions:
 ---
 
 **National Digital Evidence Portal** - Empowering justice through technology
+=======
+# Blockchain-Evidence-Track-
+A secure platform designed to eliminate the trust gap and delays caused by the manual handling and potential tampering of digital evidence in the judicial system. It provides an end-to-end digital foundation for evidence integrity.
+>>>>>>> c1799f2c9e659aa9d57a42b55d881b95d8902797
