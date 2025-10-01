@@ -1,0 +1,35 @@
+{
+  "name": "evidence-management-chaincode",
+  "version": "1.0.0",
+  "description": "NDEP Evidence Management Chaincode for Hyperledger Fabric",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js",
+    "test": "npm run test:unit && npm run test:integration",
+    "test:unit": "jest --testPathPattern=unit",
+    "test:integration": "jest --testPathPattern=integration"
+  },
+  "dependencies": {
+    "fabric-contract-api": "^2.2.0",
+    "fabric-shim": "^2.2.0",
+    "crypto": "^1.0.1"
+  },
+  "devDependencies": {
+    "jest": "^29.0.0",
+    "fabric-shim-crypto": "^2.2.0"
+  },
+  "keywords": [
+    "hyperledger",
+    "fabric",
+    "blockchain",
+    "evidence",
+    "custody",
+    "ndep",
+    "law-enforcement"
+  ],
+  "author": "NDEP Development Team",
+  "license": "MIT",
+  "engines": {
+    "node": ">=16.0.0"
+  }
+}

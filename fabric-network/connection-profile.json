@@ -1,0 +1,129 @@
+{
+    "name": "ndep-network",
+    "version": "1.0.0",
+    "client": {
+        "organization": "PoliceMSP",
+        "connection": {
+            "timeout": {
+                "peer": {
+                    "endorser": "300"
+                }
+            }
+        }
+    },
+    "organizations": {
+        "PoliceMSP": {
+            "mspid": "PoliceMSP",
+            "peers": [
+                "peer0.police.ndep.com",
+                "peer1.police.ndep.com"
+            ],
+            "certificateAuthorities": [
+                "ca.police"
+            ]
+        },
+        "ForensicMSP": {
+            "mspid": "ForensicMSP",
+            "peers": [
+                "peer0.forensic.ndep.com"
+            ],
+            "certificateAuthorities": [
+                "ca.forensic"
+            ]
+        },
+        "CourtMSP": {
+            "mspid": "CourtMSP",
+            "peers": [
+                "peer0.court.ndep.com"
+            ],
+            "certificateAuthorities": [
+                "ca.court"
+            ]
+        }
+    },
+    "orderers": {
+        "orderer.ndep.com": {
+            "url": "grpcs://localhost:7050",
+            "grpcOptions": {
+                "ssl-target-name-override": "orderer.ndep.com"
+            },
+            "tlsCACerts": {
+                "path": "crypto-config/ordererOrganizations/ndep.com/orderers/orderer.ndep.com/tls/ca.crt"
+            }
+        }
+    },
+    "peers": {
+        "peer0.police.ndep.com": {
+            "url": "grpcs://localhost:7051",
+            "eventUrl": "grpcs://localhost:7053",
+            "grpcOptions": {
+                "ssl-target-name-override": "peer0.police.ndep.com"
+            },
+            "tlsCACerts": {
+                "path": "crypto-config/peerOrganizations/police.ndep.com/peers/peer0.police.ndep.com/tls/ca.crt"
+            }
+        },
+        "peer1.police.ndep.com": {
+            "url": "grpcs://localhost:8051",
+            "eventUrl": "grpcs://localhost:8053",
+            "grpcOptions": {
+                "ssl-target-name-override": "peer1.police.ndep.com"
+            },
+            "tlsCACerts": {
+                "path": "crypto-config/peerOrganizations/police.ndep.com/peers/peer1.police.ndep.com/tls/ca.crt"
+            }
+        },
+        "peer0.forensic.ndep.com": {
+            "url": "grpcs://localhost:9051",
+            "eventUrl": "grpcs://localhost:9053",
+            "grpcOptions": {
+                "ssl-target-name-override": "peer0.forensic.ndep.com"
+            },
+            "tlsCACerts": {
+                "path": "crypto-config/peerOrganizations/forensic.ndep.com/peers/peer0.forensic.ndep.com/tls/ca.crt"
+            }
+        },
+        "peer0.court.ndep.com": {
+            "url": "grpcs://localhost:10051",
+            "eventUrl": "grpcs://localhost:10053",
+            "grpcOptions": {
+                "ssl-target-name-override": "peer0.court.ndep.com"
+            },
+            "tlsCACerts": {
+                "path": "crypto-config/peerOrganizations/court.ndep.com/peers/peer0.court.ndep.com/tls/ca.crt"
+            }
+        }
+    },
+    "certificateAuthorities": {
+        "ca.police": {
+            "url": "https://localhost:7054",
+            "caName": "ca-police",
+            "tlsCACerts": {
+                "path": "crypto-config/peerOrganizations/police.ndep.com/ca/ca.police.ndep.com-cert.pem"
+            },
+            "httpOptions": {
+                "verify": false
+            }
+        },
+        "ca.forensic": {
+            "url": "https://localhost:8054",
+            "caName": "ca-forensic",
+            "tlsCACerts": {
+                "path": "crypto-config/peerOrganizations/forensic.ndep.com/ca/ca.forensic.ndep.com-cert.pem"
+            },
+            "httpOptions": {
+                "verify": false
+            }
+        },
+        "ca.court": {
+            "url": "https://localhost:9054",
+            "caName": "ca-court",
+            "tlsCACerts": {
+                "path": "crypto-config/peerOrganizations/court.ndep.com/ca/ca.court.ndep.com-cert.pem"
+            },
+            "httpOptions": {
+                "verify": false
+            }
+        }
+    }
+}

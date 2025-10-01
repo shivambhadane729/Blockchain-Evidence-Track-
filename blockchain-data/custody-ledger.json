@@ -1,0 +1,28 @@
+{
+  "blocks": [
+    {
+      "blockNumber": 1,
+      "timestamp": "2025-09-25T05:23:03.933Z",
+      "transactionHash": "a02167675c584117bc90653f7de89aac4a395ac673c4a764f93947f5b632ca07",
+      "transactionType": "CUSTODY_TRANSFER",
+      "data": {
+        "evidenceId": {
+          "evidenceId": "TEST-001",
+          "fromUser": "admin@ndep.gov.in",
+          "toUser": "officer.rajesh@police.gov.in",
+          "transferType": "handover",
+          "location": "Police Station",
+          "notes": "Transfer to investigating officer"
+        },
+        "transferType": "HANDOVER",
+        "transferReason": null,
+        "transferNotes": null,
+        "fromLocation": null,
+        "toLocation": null
+      },
+      "previousHash": null
+    }
+  ],
+  "lastBlockNumber": 1,
+  "chainId": "ndep-custody-chain"
+}

@@ -1,0 +1,202 @@
+---
+Organizations:
+    - &OrdererOrg
+        Name: OrdererOrg
+        ID: OrdererMSP
+        MSPDir: crypto-config/ordererOrganizations/ndep.com/msp
+        Policies:
+            Readers:
+                Type: Signature
+                Rule: "OR('OrdererMSP.member')"
+            Writers:
+                Type: Signature
+                Rule: "OR('OrdererMSP.member')"
+            Admins:
+                Type: Signature
+                Rule: "OR('OrdererMSP.admin')"
+
+    - &PoliceOrg
+        Name: PoliceMSP
+        ID: PoliceMSP
+        MSPDir: crypto-config/peerOrganizations/police.ndep.com/msp
+        Policies:
+            Readers:
+                Type: Signature
+                Rule: "OR('PoliceMSP.admin', 'PoliceMSP.peer', 'PoliceMSP.client')"
+            Writers:
+                Type: Signature
+                Rule: "OR('PoliceMSP.admin', 'PoliceMSP.client')"
+            Admins:
+                Type: Signature
+                Rule: "OR('PoliceMSP.admin')"
+            Endorsement:
+                Type: Signature
+                Rule: "OR('PoliceMSP.peer')"
+        AnchorPeers:
+            - Host: peer0.police.ndep.com
+              Port: 7051
+
+    - &ForensicOrg
+        Name: ForensicMSP
+        ID: ForensicMSP
+        MSPDir: crypto-config/peerOrganizations/forensic.ndep.com/msp
+        Policies:
+            Readers:
+                Type: Signature
+                Rule: "OR('ForensicMSP.admin', 'ForensicMSP.peer', 'ForensicMSP.client')"
+            Writers:
+                Type: Signature
+                Rule: "OR('ForensicMSP.admin', 'ForensicMSP.client')"
+            Admins:
+                Type: Signature
+                Rule: "OR('ForensicMSP.admin')"
+            Endorsement:
+                Type: Signature
+                Rule: "OR('ForensicMSP.peer')"
+        AnchorPeers:
+            - Host: peer0.forensic.ndep.com
+              Port: 9051
+
+    - &CourtOrg
+        Name: CourtMSP
+        ID: CourtMSP
+        MSPDir: crypto-config/peerOrganizations/court.ndep.com/msp
+        Policies:
+            Readers:
+                Type: Signature
+                Rule: "OR('CourtMSP.admin', 'CourtMSP.peer', 'CourtMSP.client')"
+            Writers:
+                Type: Signature
+                Rule: "OR('CourtMSP.admin', 'CourtMSP.client')"
+            Admins:
+                Type: Signature
+                Rule: "OR('CourtMSP.admin')"
+            Endorsement:
+                Type: Signature
+                Rule: "OR('CourtMSP.peer')"
+        AnchorPeers:
+            - Host: peer0.court.ndep.com
+              Port: 10051
+
+Capabilities:
+    Channel: &ChannelCapabilities
+        V2_0: true
+    Orderer: &OrdererCapabilities
+        V2_0: true
+    Application: &ApplicationCapabilities
+        V2_0: true
+
+Application: &ApplicationDefaults
+    Organizations:
+    Policies:
+        Readers:
+            Type: ImplicitMeta
+            Rule: "ANY Readers"
+        Writers:
+            Type: ImplicitMeta
+            Rule: "ANY Writers"
+        Admins:
+            Type: ImplicitMeta
+            Rule: "MAJORITY Admins"
+        LifecycleEndorsement:
+            Type: ImplicitMeta
+            Rule: "MAJORITY Endorsement"
+        Endorsement:
+            Type: ImplicitMeta
+            Rule: "MAJORITY Endorsement"
+    Capabilities:
+        <<: *ApplicationCapabilities
+
+Orderer: &OrdererDefaults
+    OrdererType: etcdraft
+    EtcdRaft:
+        Consenters:
+        - Host: orderer.ndep.com
+          Port: 7050
+          ClientTLSCert: crypto-config/ordererOrganizations/ndep.com/orderers/orderer.ndep.com/tls/server.crt
+          ServerTLSCert: crypto-config/ordererOrganizations/ndep.com/orderers/orderer.ndep.com/tls/server.crt
+    BatchTimeout: 2s
+    BatchSize:
+        MaxMessageCount: 10
+        AbsoluteMaxBytes: 10 MB
+        PreferredMaxBytes: 2 MB
+    Organizations:
+    Policies:
+        Readers:
+            Type: ImplicitMeta
+            Rule: "ANY Readers"
+        Writers:
+            Type: ImplicitMeta
+            Rule: "ANY Writers"
+        Admins:
+            Type: ImplicitMeta
+            Rule: "MAJORITY Admins"
+        BlockValidation:
+            Type: ImplicitMeta
+            Rule: "ANY Writers"
+
+Channel: &ChannelDefaults
+    Policies:
+        Readers:
+            Type: ImplicitMeta
+            Rule: "ANY Readers"
+        Writers:
+            Type: ImplicitMeta
+            Rule: "ANY Writers"
+        Admins:
+            Type: ImplicitMeta
+            Rule: "MAJORITY Admins"
+    Capabilities:
+        <<: *ChannelCapabilities
+
+Profiles:
+    Genesis:
+        <<: *ChannelDefaults
+        Orderer:
+            <<: *OrdererDefaults
+            Organizations:
+                - *OrdererOrg
+            Capabilities:
+                <<: *OrdererCapabilities
+        Consortiums:
+            NDEPConsortium:
+                Organizations:
+                    - *PoliceOrg
+                    - *ForensicOrg
+                    - *CourtOrg
+
+    EvidenceChannel:
+        Consortium: NDEPConsortium
+        <<: *ChannelDefaults
+        Application:
+            <<: *ApplicationDefaults
+            Organizations:
+                - *PoliceOrg
+                - *ForensicOrg
+                - *CourtOrg
+            Capabilities:
+                <<: *ApplicationCapabilities
+
+    CustodyChannel:
+        Consortium: NDEPConsortium
+        <<: *ChannelDefaults
+        Application:
+            <<: *ApplicationDefaults
+            Organizations:
+                - *PoliceOrg
+                - *ForensicOrg
+                - *CourtOrg
+            Capabilities:
+                <<: *ApplicationCapabilities
+
+    AuditChannel:
+        Consortium: NDEPConsortium
+        <<: *ChannelDefaults
+        Application:
+            <<: *ApplicationDefaults
+            Organizations:
+                - *PoliceOrg
+                - *ForensicOrg
+                - *CourtOrg
+            Capabilities:
+                <<: *ApplicationCapabilities
